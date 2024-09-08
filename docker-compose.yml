@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    image: traefik:v2.9
+    ports:
+      - "80:80"        # Web traffic port
+      - "8080:8080"    # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # Provide Traefik access to Docker
+    networks:
+      - ecommerce-net
+    command:
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--entrypoints.web.address=:80"  # Define HTTP entrypoint
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+    labels:
+      - "traefik.http.routers.webservice.rule=Host(`localhost`)"
+      - "traefik.http.services.webservice.loadbalancer.server.port=3000"
+      - "traefik.http.routers.webservice.entrypoints=web"  # Ensure routing through port 80
+
+  web-service:
+    build: ./services/web-service
+    networks:
+      - ecommerce-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webservice.rule=Host(`localhost`)"
+      - "traefik.http.services.webservice.loadbalancer.server.port=3000"
+    ports:
+      - "3000:3000"  # Ensure host machine can access the service on port 3000
+
+  database:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: ecommercedb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+    volumes:
+      - db-data:/var/lib/postgresql/data  # Persist database data
+      - ./db-init:/docker-entrypoint-initdb.d
+    networks:
+      - ecommerce-net
+
+volumes:
+  db-data:
+
+networks:
+  ecommerce-net:
