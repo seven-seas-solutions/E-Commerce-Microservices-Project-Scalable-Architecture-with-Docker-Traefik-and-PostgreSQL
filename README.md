@@ -41,19 +41,23 @@ Ensure you have the following installed on your system:
 ```bash
 git clone https://github.com/seven-seas-solutions/e-commerce-microservices.git
 cd e-commerce-microservices
-Running the Application
+```
+## Running the Application
+
 Build and Start Services:
 
-bash
-Copy code
+```bash
 sudo docker-compose up --build -d
-Access the Application:
+```
+## Access the Application:
 
 Web Service: http://localhost:3000
 Traefik Dashboard: http://localhost:8080
-Project Structure
-scss
-Copy code
+
+## Project Structure
+
+```bash
+
 e-commerce-microservices/
 │
 ├── db-init/
@@ -77,13 +81,16 @@ e-commerce-microservices/
 │       ├── index.js
 │       └── package.json
 └── README.md (This file)
-Optional Configuration: Exposing the Web Service through Traefik
+```
+
+## Optional Configuration: Exposing the Web Service through Traefik
+
 To expose the web service through Traefik at http://localhost instead of http://localhost:3000, you need to configure Traefik routing.
 
 docker-compose.yml (updated)
 
-yaml
-Copy code
+```yaml
+
 version: '3.8'
 
 services:
@@ -131,34 +138,38 @@ volumes:
 
 networks:
   ecommerce-net:
+```
 Once you configure the routing, you can access the web service at http://localhost directly.
 
-Testing
+## Testing
+
 You can verify that all services are running as expected by using:
 
-bash
-Copy code
+```bash
+
 sudo docker-compose ps
+```
 Check logs to ensure the services are running correctly:
 
-bash
-Copy code
+```bash
 sudo docker logs e-commerce-microservices-web-service-1
 sudo docker logs e-commerce-microservices-api-gateway-1
-Usage
-Use Cases
-E-commerce Platforms: Use this architecture for building and deploying modular, scalable e-commerce platforms.
-Learning Microservices: Ideal for developers learning microservices architecture, containerization, and orchestration.
-DevOps Demonstration: Demonstrate DevOps best practices by deploying a multi-service architecture using Docker and Traefik.
-License
+```
+## Use Cases:
+1. E-commerce Platforms: Use this architecture for building and deploying modular, scalable e-commerce platforms.
+2. Learning Microservices: Ideal for developers learning microservices architecture, containerization, and orchestration.
+3. DevOps Demonstration: Demonstrate DevOps best practices by deploying a multi-service architecture using Docker and Traefik.
+
+## License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-Contributing
+## Contributing
 Feel free to submit a pull request if you find any issues or have suggestions for improvements.
 
-Contact
+## Contact
 For any inquiries or support, please contact:
 
 Seven Seas Solutions
+www.sevenseassolutions.co.uk
 Email: contact@sevenseassolutions.com
-GitHub: seven-seas-solutions
